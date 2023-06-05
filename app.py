@@ -25,15 +25,6 @@ QA_PROMPT_TMPL = (
 )
 QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
 
-# Class and Function
-# class StreamHandler(BaseCallbackHandler):
-#     def __init__(self, container, initial_text = ""):
-#         self.container = container
-#         self.text=initial_text
-#     def on_llm_new_token(self, token: str, **kwargs) -> None:
-#         self.text+=token 
-#         self.container.success(self.text) 
-
 @st.cache_resource
 def get_vector_db(uploaded_file):
     with NamedTemporaryFile(dir='.', suffix='.pdf') as f:
@@ -79,7 +70,9 @@ if uploaded_file is not None:
         try:
             response = engine.query(query) # Query to ChatGPT
             refer_pages = "参照ページ：" + ", ".join([node.extra_info["page_label"] for node in response.source_nodes])
-            st.success(f"{response.response}\n\n{refer_pages}")
+            for text in response.response_gen:
+                chat_box.success(text)
+            chat_box.success(f"\n\n{refer_pages}")
             st.session_state.qa["history"].append({"role": "A", "msg": response})
         except Exception:
             response = "エラーが発生しました！　もう一度、質問して下さい。"
