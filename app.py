@@ -70,7 +70,9 @@ if uploaded_file is not None:
         try:
             response = engine.query(query) # Query to ChatGPT
             refer_pages = "参照ページ：" + ", ".join([node.extra_info["page_label"] for node in response.source_nodes])
-            for text in response.response_gen:
+            text = ""
+            for next in response.response_gen:
+                text += next
                 chat_box.success(text)
             chat_box.success(f"\n\n{refer_pages}")
             st.session_state.qa["history"].append({"role": "A", "msg": response})
