@@ -73,7 +73,7 @@ if uploaded_file is not None:
             for next in response.response_gen:
                 text += next
                 chat_box.success(text)
-            refer_pages = "\n\n参照：" + ", ".join([f"{node.extra_info["page_label"]}ページ" for node in response.source_nodes])
+            refer_pages = "\n\n参照：" + ", ".join([f"{node.extra_info['page_label']}ページ" for node in response.source_nodes])
             chat_box.success(text + refer_pages)
             st.session_state.qa["history"].append({"role": "A", "msg": text + refer_pages})
         except Exception as error_msg:
