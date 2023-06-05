@@ -69,12 +69,12 @@ if uploaded_file is not None:
         query = st.session_state.qa["history"][-1]["msg"]
         try:
             response = engine.query(query) # Query to ChatGPT
-            for text in response.print_response_stream():
+            for text in response.response_gen:
                 chat_box.write(text)
             refer_pages = "\n\n参照ページ：" + ", ".join([node.extra_info["page_label"] for node in response.source_nodes])
             chat_box.write(refer_pages)
             st.session_state.qa["history"].append({"role": "A", "msg": response.response + refer_pages})
-        except Exception:
-            response = "エラーが発生しました！　もう一度、質問して下さい。"
-            st.error(response)
-            st.session_state.qa["history"].append({"role": "E", "msg": response})
+        except Exception as error_msg:
+#             error_msg = "エラーが発生しました！　もう一度、質問して下さい。"
+            st.error(error_msg)
+            st.session_state.qa["history"].append({"role": "E", "msg": error_msg})
