@@ -56,7 +56,7 @@ if uploaded_file is not None:
             if message["role"] == "Q": # Q: Question (User)
                 st.info(message["msg"])
             elif message["role"] == "A": # A: Answer (AI Assistant)
-                st.write(message["msg"])
+                st.success(message["msg"])
             elif message["role"] == "E": # E: Error
                 st.error(message["msg"])
     chat_box = st.empty() # Streaming message
