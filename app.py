@@ -72,7 +72,7 @@ if uploaded_file is not None:
 
     # Model (Business Logic)
     index = get_vector_db(uploaded_file)
-    stream_handler = StreamHandler(chat_box)
+#     stream_handler = StreamHandler(chat_box)
     engine = index.as_query_engine(text_qa_template=QA_PROMPT)
     if st.session_state.qa["history"]:
         query = st.session_state.qa["history"][-1]["msg"]
