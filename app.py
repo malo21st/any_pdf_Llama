@@ -25,13 +25,13 @@ QA_PROMPT_TMPL = (
 QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
 
 # Class and Function
-class StreamHandler(BaseCallbackHandler):
-    def __init__(self, container, initial_text = ""):
-        self.container = container
-        self.text=initial_text
-    def on_llm_new_token(self, token: str, **kwargs) -> None:
-        self.text+=token 
-        self.container.success(self.text) 
+# class StreamHandler(BaseCallbackHandler):
+#     def __init__(self, container, initial_text = ""):
+#         self.container = container
+#         self.text=initial_text
+#     def on_llm_new_token(self, token: str, **kwargs) -> None:
+#         self.text+=token 
+#         self.container.success(self.text) 
 
 @st.cache_resource
 def get_vector_db(uploaded_file):
