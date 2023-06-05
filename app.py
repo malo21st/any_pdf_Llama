@@ -4,6 +4,7 @@ from pathlib import Path
 from llama_index import LLMPredictor, GPTVectorStoreIndex, PromptHelper, ServiceContext
 from llama_index import QuestionAnswerPrompt, GPTVectorStoreIndex, SimpleDirectoryReader
 from langchain import OpenAI
+from tempfile import NamedTemporaryFile
 import os
 
 os.environ["OPENAI_API_KEY"] = st.secrets.openai_api_key
