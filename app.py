@@ -56,7 +56,7 @@ if uploaded_file is not None:
             if message["role"] == "Q": # Q: Question (User)
                 st.info(message["msg"])
             elif message["role"] == "A": # A: Answer (AI Assistant)
-                st.success(message["msg"])
+                st.write(message["msg"])
             elif message["role"] == "E": # E: Error
                 st.error(message["msg"])
     chat_box = st.empty() # Streaming message
@@ -69,10 +69,11 @@ if uploaded_file is not None:
         query = st.session_state.qa["history"][-1]["msg"]
         try:
             response = engine.query(query) # Query to ChatGPT
-            refer_pages = "参照ページ：" + ", ".join([node.extra_info["page_label"] for node in response.source_nodes])
-            chat_box.success(response.print_response_stream())
-            chat_box.success(f"\n\n{refer_pages}")
-            st.session_state.qa["history"].append({"role": "A", "msg": response})
+            for text in response.print_response_stream():
+                chat_box.write(text)
+            refer_pages = "\n\n参照ページ：" + ", ".join([node.extra_info["page_label"] for node in response.source_nodes])
+            chat_box.write(refer_pages)
+            st.session_state.qa["history"].append({"role": "A", "msg": response.response + refer_pages})
         except Exception:
             response = "エラーが発生しました！　もう一度、質問して下さい。"
             st.error(response)
