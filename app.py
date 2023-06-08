@@ -30,7 +30,8 @@ def get_vector_db(uploaded_file):
     with NamedTemporaryFile(dir='.', suffix='.pdf') as f:
         PDFReader = download_loader("PDFReader")
         loader = PDFReader()
-        documents = loader.load_data(file=Path(f.name))
+        documents = loader.load_data(file=f.name)
+#         documents = loader.load_data(file=Path(f.name))
     llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="gpt-3.5-turbo", streaming=True))
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
     index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
