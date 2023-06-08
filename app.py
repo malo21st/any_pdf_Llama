@@ -28,7 +28,7 @@ QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
 @st.cache_resource
 def get_vector_db(uploaded_file):
     with NamedTemporaryFile(dir='.', suffix='.pdf') as f:
-        uploaded_file.getbuffer()
+#         uploaded_file.getbuffer()
         PDFReader = download_loader("PDFReader")
         loader = PDFReader()
         documents = loader.load_data(file=Path(f.name))
