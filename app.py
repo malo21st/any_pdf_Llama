@@ -43,7 +43,7 @@ def store_del_msg():
 
 # View (User Interface)
 ## Sidebar
-st.sidebar.title("ＰＤＦアシスタント")
+st.sidebar.title("PDFWhiz")
 uploaded_file = st.sidebar.file_uploader("PDFファイルをアップロードして下さい", type=["pdf"])
 if uploaded_file is not None:
     if uploaded_file.name != st.session_state.qa.get("pdf", ""):
@@ -56,7 +56,7 @@ if uploaded_file is not None:
             if message["role"] == "Q": # Q: Question (User)
                 st.info(message["msg"])
             elif message["role"] == "A": # A: Answer (AI Assistant)
-                st.success(message["msg"])
+                st.write(message["msg"])
             elif message["role"] == "E": # E: Error
                 st.error(message["msg"])
     chat_box = st.empty() # Streaming message
@@ -72,9 +72,9 @@ if uploaded_file is not None:
             text = ""
             for next in response.response_gen:
                 text += next
-                chat_box.success(text)
+                chat_box.write(text)
             refer_pages = "\n\n参照：" + ", ".join([f"{node.extra_info['page_label']}ページ" for node in response.source_nodes])
-            chat_box.success(text + refer_pages)
+            chat_box.write(text + refer_pages)
             st.session_state.qa["history"].append({"role": "A", "msg": text + refer_pages})
         except Exception as error_msg:
 #             error_msg = "エラーが発生しました！　もう一度、質問して下さい。"
